@@ -8,4 +8,8 @@ class bounce {
         ensure => installed,
         provider => 'npm'
     }
+
+  # Ensure MongoDB is installed
+    require mongodb::server
+    require mongodb::client
 }
