@@ -21,7 +21,6 @@ yumrepo { "epel":
     gpgkey => 'https://fedoraproject.org/static/0608B895.txt'
 }
 
-package { "nodejs":
-    ensure => installed,
-    require => Yumrepo["epel"]
-}
+# Custom Modules
+
+include bounce
