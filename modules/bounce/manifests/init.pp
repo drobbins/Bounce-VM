@@ -1,5 +1,6 @@
 class bounce {
 
+    $bounce_user = "bounce"
     $bounce_user_home = "/home/bounce"
     $bounce_home = "${bounce_user_home}/bounce"
 
@@ -20,9 +21,9 @@ class bounce {
     group { 'services':
         ensure => present
     }
-    user { 'bounce':
+    user { $bounce_user:
         ensure => 'present',
-        name => 'bounce',
+        name => $bounce_user,
         uid => '701',
         gid => 'services',
         home => $bounce_user_home,
@@ -33,10 +34,11 @@ class bounce {
 
   # Ensure Bounce repository is cloned into the bounce users home directory
     vcsrepo { $bounce_home:
-        ensure => present,
+        ensure   => present,
         provider => git,
-        source => 'https://github.com/agrueneberg/Bounce.git',
-        require => User['bounce']
+        source   => 'https://github.com/agrueneberg/Bounce.git',
+        require  => User[$bounce_user],
+        user     => $bounce_user
     }
 
   # Ensure the NPM dependencies are installed
@@ -45,6 +47,22 @@ class bounce {
         cwd         => $bounce_home,
         path        => '/usr/local/bin:/usr/bin:/bin',
         require     => Vcsrepo[$bounce_home],
-        environment => ["HOME=${bounce_user_home}"]
+        environment => ["HOME=${bounce_user_home}"],
+        user        => $bounce_user
+    }
+
+  # Ensure Bounce is running
+    file { "${bounce_home}/out":
+        ensure => directory,
+        owner  => $bounce_user
+    }
+    exec { 'bounce':
+        command     => 'forever start --pidFile bounce.js bin/bounce.js',
+        cwd         => $bounce_home,
+        path        => '/usr/local/bin:/usr/bin:/bin',
+        require     => [Exec['bounce-npm-install'], Package['forever']],
+        user        => $bounce_user,
+        environment => ["HOME=${bounce_user_home}"],
+        creates     => "${bounce_user_home}/.forever/pids/bounce.js"
     }
 }
