@@ -9,3 +9,19 @@ $packages = [
 package { $packages:
     ensure => installed,
 }
+
+
+# EPEL Packages
+yumrepo { "epel":
+    mirrorlist => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::operatingsystemmajrelease}&arch=${::architecture}",
+    baseurl => 'absent',
+    failovermethod => 'priority',
+    enabled => '1',
+    gpgcheck => '1',
+    gpgkey => 'https://fedoraproject.org/static/0608B895.txt'
+}
+
+package { "nodejs":
+    ensure => installed,
+    require => Yumrepo["epel"]
+}
