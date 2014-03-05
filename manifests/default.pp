@@ -1,11 +1,11 @@
 # Basic Packages
 $packages = [
-	"vim-common",
-	"vim-minimal",
-	"vim-enhanced", 
-	"make",
-	"git"
+    "vim-common",
+    "vim-minimal",
+    "vim-enhanced",
+    "make",
+    "git"
 ]
 package { $packages:
-	ensure => installed,
+    ensure => installed,
 }
