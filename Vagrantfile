@@ -6,5 +6,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "centos6.3-puppet3.4.3"
+  config.vm.box_url = "https://dl.dropboxusercontent.com/s/l3itm2u66dxc0rm/centos6.3-puppet3.4.3.box?dl=1&token_hash=AAFhtq_yOM4dc_MU1GVY69IOhUgL-tQIHfFs792THGfPlQ"
   config.vm.provision "puppet"
 end
