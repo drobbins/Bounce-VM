@@ -12,8 +12,9 @@ class bounce {
 
   # Ensure forever (https://www.npmjs.org/package/forever) is installed
     package { 'forever':
-        ensure => installed,
-        provider => 'npm'
+        ensure   => installed,
+        provider => 'npm',
+        require  => Class['nodejs']
     }
 
   # Ensure MongoDB is installed
