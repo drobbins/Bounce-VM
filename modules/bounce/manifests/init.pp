@@ -29,14 +29,14 @@ class bounce {
         ensure => present
     }
     user { $bounce_user:
-        ensure => 'present',
-        name => $bounce_user,
-        uid => '701',
-        gid => 'services',
-        home => $bounce_user_home,
+        ensure     => 'present',
+        name       => $bounce_user,
+        uid        => '701',
+        gid        => 'services',
+        home       => $bounce_user_home,
         managehome => true,
-        comment => 'Service user for Bounce',
-        password => '$1$hvI2Oipv$xWT8ePfKSXbsptZd3EMgE.'
+        comment    => 'Service user for Bounce',
+        password   => '$1$hvI2Oipv$xWT8ePfKSXbsptZd3EMgE.'
     }
 
   # Ensure Bounce repository is cloned into the bounce users home directory
