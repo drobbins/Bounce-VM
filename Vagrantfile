@@ -10,4 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "puppet" do |puppet|
       puppet.module_path = "modules"
   end
+
+  #Forward the Bounce port
+  config.vm.network "forwarded_port", guest: 27080, host: 27080
 end
