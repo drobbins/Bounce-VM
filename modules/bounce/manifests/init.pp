@@ -14,8 +14,11 @@ class bounce {
     }
 
   # Ensure MongoDB is installed
-    require mongodb::server
-    require mongodb::client
+    class {'::mongodb::globals':
+      manage_package_repo => true,
+    } ->
+    class {'::mongodb::server': } ->
+    class {'::mongodb::client': }
 
   # User for to own the Bounce service
     group { 'services':
