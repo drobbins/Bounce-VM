@@ -52,7 +52,7 @@ class bounce {
         command     => 'npm install',
         cwd         => $bounce_home,
         path        => '/usr/local/bin:/usr/bin:/bin',
-        require     => Vcsrepo[$bounce_home],
+        require     => [Vcsrepo[$bounce_home], Class['nodejs']],
         environment => ["HOME=${bounce_user_home}"],
         user        => $bounce_user
     }
