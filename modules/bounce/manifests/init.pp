@@ -5,9 +5,22 @@ class bounce {
     $bounce_home = "${bounce_user_home}/bounce"
 
   # Ensure Node and npm are installed via puppetlabs/nodejs (https://forge.puppetlabs.com/puppetlabs/nodejs)
-    class { 'nodejs':
-        manage_repo => true
+    case $::operatingsystem {
+        'Fedora', 'RedHat', 'Scientific', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
+            # Load EPEL Repo for access to NodeJS package
+            yumrepo { "epel":
+                mirrorlist     => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::operatingsystemmajrelease}&arch=${::architecture}",
+                baseurl        => 'absent',
+                failovermethod => 'priority',
+                enabled        => '1',
+                gpgcheck       => '1',
+                gpgkey         => 'https://fedoraproject.org/static/0608B895.txt'
+            }
+        }
+        default: {
+        }
     }
+    class { 'nodejs': }
 
   # Ensure forever (https://www.npmjs.org/package/forever) is installed
     package { 'forever':
