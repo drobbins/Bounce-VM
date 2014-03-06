@@ -5,7 +5,6 @@ class bounce {
     $bounce_home = "${bounce_user_home}/bounce"
 
   # Ensure Node and npm are installed via puppetlabs/nodejs (https://forge.puppetlabs.com/puppetlabs/nodejs)
-    require nodejs
     class { 'nodejs':
         manage_repo => true
     }
