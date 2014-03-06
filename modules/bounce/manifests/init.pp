@@ -63,7 +63,7 @@ class bounce {
         command     => 'forever start --pidFile bounce.js bin/bounce.js',
         cwd         => $bounce_home,
         path        => '/usr/local/bin:/usr/bin:/bin',
-        require     => [Exec['bounce-npm-install'], Package['forever']],
+        require     => [Exec['bounce-npm-install'], Package['forever'], Class['::mongodb::server']],
         user        => $bounce_user,
         environment => ["HOME=${bounce_user_home}"],
         creates     => "${bounce_user_home}/.forever/pids/bounce.js"
