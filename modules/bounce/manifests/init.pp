@@ -71,17 +71,18 @@ class bounce {
     }
 
   # Ensure Bounce is running
-    file { "${bounce_home}/out":
-        ensure => directory,
-        owner  => $bounce_user
+    file { "${bounce_user_home}/.forever":
+        ensure    => absent,
+        subscribe => [Exec['bounce-npm-install'], Package['forever'], Class['::mongodb::server']],
+        force     => true
     }
     exec { 'bounce':
-        command     => 'forever start --pidFile bounce.js bin/bounce.js',
+        command     => "forever start --pidFile bounce.pid bin/bounce.js",
         cwd         => $bounce_home,
         path        => '/usr/local/bin:/usr/bin:/bin',
-        require     => [Exec['bounce-npm-install'], Package['forever'], Class['::mongodb::server']],
+        subscribe   => File["${bounce_user_home}/.forever"],
         user        => $bounce_user,
         environment => ["HOME=${bounce_user_home}"],
-        creates     => "${bounce_user_home}/.forever/pids/bounce.js"
+        creates     => "${bounce_user_home}/.forever/pids/bounce.pid"
     }
 }
