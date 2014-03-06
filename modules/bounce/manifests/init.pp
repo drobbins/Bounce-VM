@@ -6,6 +6,9 @@ class bounce {
 
   # Ensure Node and npm are installed via puppetlabs/nodejs (https://forge.puppetlabs.com/puppetlabs/nodejs)
     require nodejs
+    class { 'nodejs':
+        manage_repo => true
+    }
 
   # Ensure forever (https://www.npmjs.org/package/forever) is installed
     package { 'forever':
