@@ -85,4 +85,11 @@ class bounce {
         environment => ["HOME=${bounce_user_home}"],
         creates     => "${bounce_user_home}/.forever/pids/bounce.pid"
     }
+
+  # Ensure the Firewall is configured to allow Bounce traffic
+    firewall { '100 allow Bounce http traffic':
+        port   => [27080],
+        proto  => tcp,
+        action => accept
+    }
 }
