@@ -13,4 +13,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   #Forward the Bounce port
   config.vm.network "forwarded_port", guest: 27080, host: 27080
+  config.vm.network "forwarded_port", guest: 27081, host: 27081
 end
