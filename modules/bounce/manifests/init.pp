@@ -87,9 +87,20 @@ class bounce {
     }
 
   # Ensure the Firewall is configured to allow Bounce traffic
-    firewall { '100 allow Bounce http traffic':
-        port   => [27080],
+    firewall { '100 allow Bounce http(s) traffic':
+        port   => [27080, 27081],
         proto  => tcp,
         action => accept
+    }
+
+  # Set up NGINX proxy for SSL
+    include nginx
+    nginx::resource::vhost { 'localhost':
+        ensure   => present,
+        proxy    => 'http://localhost:27080',
+        ssl      => true,
+        ssl_cert => '/vagrant/modules/bounce/files/ssl/server.crt',
+        ssl_key  => '/vagrant/modules/bounce/files/ssl/server.key',
+        ssl_port => 27081
     }
 }
